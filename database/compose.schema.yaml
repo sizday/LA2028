@@ -1,0 +1,17 @@
+services:
+  db:
+    volumes:
+      - ./migrations/data:/migration_db_data
+
+  schema:
+    build:
+      dockerfile: Dockerfile_schema
+    environment:
+      PGHOST: db
+      PGPORT: 5432
+      PGUSER: ${POSTGRES_USER:-postgres}
+      PGPASSWORD: ${POSTGRES_PASSWORD:-postgres}
+      PGDATABASE: ${POSTGRES_DB:-postgres}
+    depends_on:
+      db:
+        condition: service_healthy

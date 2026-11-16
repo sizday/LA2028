@@ -1,0 +1,14 @@
+# environment
+.env
+
+# override files
+compose.override.yaml
+
+# testing / diff artifacts
+schema.diff
+schema.sql
+mock_data.sql
+
+# ide
+.idea
+.vscode

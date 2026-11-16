@@ -1,0 +1,13 @@
+services:
+  db:
+    volumes:
+      - ./migrations/data:/migration_db_data
+
+  migration:
+    image: liquibase/liquibase:4.33
+    command: update --url=jdbc:postgresql://db:5432/${POSTGRES_DB:-postgres} --username=${POSTGRES_USER:-postgres} --password=${POSTGRES_PASSWORD:-postgres} --changelog-file=migrations/changelog.xml
+    volumes:
+      - ./migrations:/liquibase/migrations:rw
+    depends_on:
+      db:
+        condition: service_healthy

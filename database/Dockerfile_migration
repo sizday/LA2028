@@ -1,0 +1,18 @@
+# Build argument for Liquibase version
+ARG LIQUIBASE_VERSION=4.33
+
+FROM liquibase/liquibase:${LIQUIBASE_VERSION}
+
+WORKDIR /liquibase
+
+COPY ./migrations /liquibase/migrations
+COPY ./scripts/migrate.sh /liquibase
+COPY ./scripts/migration_entrypoint.sh /
+
+USER root
+RUN chmod 777 /liquibase/migrations && chmod 777 /liquibase/migrate.sh
+RUN chmod a+x /migration_entrypoint.sh
+USER liquibase
+
+ENTRYPOINT ["/migration_entrypoint.sh"]
+CMD ["help"]

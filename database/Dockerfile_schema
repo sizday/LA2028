@@ -1,0 +1,10 @@
+FROM postgres:17
+
+WORKDIR //
+
+COPY ./schema /schema
+COPY ./scripts/run-ddl.sh /scripts/run-ddl.sh
+RUN chmod +x /scripts/run-ddl.sh
+
+USER postgres
+ENTRYPOINT ["/scripts/run-ddl.sh"]
